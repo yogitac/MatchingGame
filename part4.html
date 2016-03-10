@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Matching Game</title>
+    <!--meta http-equiv="refresh" content="1"!-->
+    <style>
+    #leftSide{
+      width:500px;
+      height:500px;
+      position: absolute;
+    }
+    #rightSide{
+      left: 500px;
+      width:500px;
+      height:500px;
+      border-left: 2px solid black;
+      position: absolute;
+    }
+    img {
+      position: absolute;
+    }
+
+    </style>
+    <script>
+      var numberOfFaces = 5;
+      var theLeftSide  = document.getElementById("leftSide");
+      var theRightSide;
+      var leftSideImages;
+      var theBody;
+
+      function generateFaces()
+      {
+          for (var i=0; i<numberOfFaces; i++ )
+          {
+            var img_top = Math.floor((Math.random() * 400) + 1);
+            var img_left = Math.floor((Math.random() * 400) + 1);
+            theLeftSide = document.getElementById("leftSide");
+            the_img = document.createElement("img");
+            the_img.src =  "http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+            the_img.style.top = img_top + "px";
+            the_img.style.left = img_left + "px";
+            theLeftSide.appendChild(the_img);
+          }
+          theRightSide = document.getElementById("rightSide");
+          leftSideImages = theLeftSide.cloneNode(true);
+          leftSideImages.removeChild(leftSideImages.lastChild);
+          theRightSide.appendChild(leftSideImages);
+
+          theLeftSide.lastChild.addEventListener("click", nextLevel);
+
+      }
+     // The eventhandler for nextLevel and gameOver
+
+      function nextLevel(event)
+      {
+        event.stopPropagation();
+        numberOfFaces += 5;
+        generateFaces();
+      }
+      function gameOver(event) {
+        event.stopPropagation();
+        alert("GameOver!!")
+        theBody.removeEventListener("click", gameOver);
+        theLeftSide.lastChild.removeEventListener("click", nextLevel);
+      }
+
+    </script>
+  </head>
+<body onload="generateFaces()" onclick="gameOver()">
+  <h2>Matching Game</h2>
+  <p>Click on the extra smiley face on the left</p>
+  <div id="leftSide"></div>
+
+  <div id="rightSide"></div>
+
+</body>
+</html>
